@@ -2,6 +2,8 @@ import sqlite3
 import sys
 from PyQt5 import uic, QtCore
 from PyQt5.QtWidgets import *
+
+
 class MyWidg(QMainWindow):
     def __init__(self, *arg):
         super().__init__()
@@ -64,6 +66,7 @@ class MyWidg(QMainWindow):
             self.lE5.setText(f'{self.s.tb.item(self.s.row, 5).text()}')
             self.lE6.setText(f'{self.s.tb.item(self.s.row, 6).text()}')
             con.close()
+
     def app(self):
         tx = self.lE1.text()
         tx1 = self.lE2.text()
@@ -94,6 +97,7 @@ class MyWidg(QMainWindow):
             con.close()
             self.lb7.setText('')
             self.hide()
+
     def upp(self):
         tx = self.lE1.text()
         tx1 = self.lE2.text()
@@ -127,6 +131,9 @@ class MyWidg(QMainWindow):
             con.close()
             self.lb7.setText('')
             self.hide()
+
+
+
 class MyWidget(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -149,8 +156,12 @@ class MyWidget(QMainWindow):
         self.lb = QLabel(self)
         self.lb.setGeometry(QtCore.QRect(30, 450, 571, 16))
         self.lb.setText('')
+
+
         self.flag = 0
+
         self.con = sqlite3.connect('coffee.db')
+
         cur = self.con.cursor()
         result = cur.execute("""select * from coffee""").fetchall()
         self.tb.setColumnCount(len(result[0]))
@@ -160,13 +171,14 @@ class MyWidget(QMainWindow):
         for i in range(len(result)):
             for j in range(len(result[i])):
                 self.tb.setItem(i, j, QTableWidgetItem(f'{result[i][j]}'))
-                
+
         self.tb.cellClicked.connect(self.sign_flag)
 
     def app_coffee(self):
         self.lb.setText('')
         self.wd = MyWidg(self, 1)
         self.wd.show()
+
     def upp_coffee(self):
         if self.flag:
             self.lb.setText('')
@@ -174,6 +186,7 @@ class MyWidget(QMainWindow):
             self.wd.show()
         else:
             self.lb.setText('Выберете ячейку')
+
     def del_coffee(self):
         if self.flag:
             valid = QMessageBox.question(
@@ -189,6 +202,7 @@ class MyWidget(QMainWindow):
                 con.commit()
                 con.close()
                 self.con = sqlite3.connect('coffee.db')
+
                 cur = self.con.cursor()
                 result = cur.execute("""select * from coffee""").fetchall()
                 self.tb.setColumnCount(len(result[0]))
@@ -201,10 +215,13 @@ class MyWidget(QMainWindow):
                 self.show()
         else:
             self.lb.setText('Выберете ячейку')
+
     def sign_flag(self, row, col):
         self.flag = 1
         self.row = row
         self.col = col
+
+
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     ex = MyWidget()
