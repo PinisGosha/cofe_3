@@ -1,4 +1,4 @@
-использованные библиотеки:
+import:
 PyQt5
 sys
 sqlite3
